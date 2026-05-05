@@ -1,10 +1,47 @@
-.venv
+# Version control
+.git
+.gitignore
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Python
 __pycache__
 *.pyc
 *.pyo
-.env
-.env.local
-.git
-.gitignore
+*.pyd
+.Python
+env/
+venv/
+ENV/
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.coverage
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
 .DS_Store
+Thumbs.db
+
+# Development
+.editorconfig
+*.log
 *.md
+!README.md
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# OS
+.DS_Store
+Thumbs.db
+*.tmp

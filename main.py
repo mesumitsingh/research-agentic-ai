@@ -5,6 +5,7 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.agents import create_agent
 from langchain_core.output_parsers import PydanticOutputParser
+from tools import search_tool
 
 load_dotenv()
 
@@ -35,20 +36,21 @@ prompt = ChatPromptTemplate.from_messages(
     ]
 ).partial(format_instructions=parser.get_format_instructions())
 
-
+tools=[search_tool]
 agent = create_agent( 
     model = llm, 
-    tools=[], 
+    tools=tools, 
     system_prompt="You are a research assistant"
 )
 
 
+query = input("What can I help you research?")
 raw_response = agent.invoke(
     { 
         "messages" : [ 
             { 
                 "role" : "user",
-                "content" : prompt.format(query="What is the capital of Croatia?")
+                "content" : prompt.format(query)
             }
         ]
     }

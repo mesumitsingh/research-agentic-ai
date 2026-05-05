@@ -2,11 +2,11 @@ version: '3.8'
 
 services:
   agentic-ai:
-    build: 
-      context: .
+    build:
+      context: .   
     container_name: agentic-ai-container   
     environment:
-      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}  
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}   
     command: tail -f /dev/null
     stdin_open: true
     tty: true
