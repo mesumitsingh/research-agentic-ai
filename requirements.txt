@@ -3,5 +3,5 @@ wikipedia
 langchain-community
 langchain-openai
 langchain-anthropic
-langchain-dotenv
+python-dotenv
 pydantic
