@@ -1,7 +1,7 @@
-**# Agentic AI Research Assistant**  
+# Agentic AI Research Assistant
 *Your personal digital demon that actually does research instead of hallucinating bullshit at 3 AM.*
 
-Tired of asking ChatGPT about "latest AI trends" and getting 2023 garbage wrapped in corporate cheerleading? This LangChain-powered savage doesn't just search — it **hunts**, cross-references, and spits out structured reports like a cynical grad student who’s seen too much.
+Tired of asking ChatGPT about "latest AI trends" and getting 2023 garbage wrapped in corporate cheerleading? This LangChain-powered savage doesn't just search it **hunts**, cross-references, and spits out structured reports like a cynical grad student who’s seen too much.
 
 Built with OpenRouter (because free models lie), DuckDuckGo (Google can suck it), and Wikipedia (the last somewhat honest corner of the internet). Also saves your research notes so you don’t lose them like every other half-finished side project.
 
