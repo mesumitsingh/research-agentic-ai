@@ -1,103 +1,90 @@
-# Agentic AI Research Assistant
+**# Agentic AI Research Assistant**  
+*Your personal digital demon that actually does research instead of hallucinating bullshit at 3 AM.*
 
-A LangChain-based research assistant that leverages OpenRouter, DuckDuckGo search, and Wikipedia to generate structured research reports. It can also save research notes to a text file for later reference.
+Tired of asking ChatGPT about "latest AI trends" and getting 2023 garbage wrapped in corporate cheerleading? This LangChain-powered savage doesn't just search — it **hunts**, cross-references, and spits out structured reports like a cynical grad student who’s seen too much.
 
-## Features
+Built with OpenRouter (because free models lie), DuckDuckGo (Google can suck it), and Wikipedia (the last somewhat honest corner of the internet). Also saves your research notes so you don’t lose them like every other half-finished side project.
 
-- **Structured Research Output**: Produces reports with `topic`, `summary`, `sources`, and `tools_used`.
-- **Web Search**: Integrates DuckDuckGo for current information retrieval.
-- **Wikipedia Integration**: Fetches reference material from Wikipedia.
-- **Note Saving**: Appends research notes to `research_output.txt`.
-- **Flexible Execution**: Supports local Python execution or Docker-based containerization.
+### Features (The Ones That Actually Work)
+- **Structured output** or die trying: Always delivers `topic`, `summary`, `sources`, and `tools_used`. No half-assed Markdown soup.
+- **Web search** that doesn’t track you (DuckDuckGo supremacy).
+- **Wikipedia integration** for when you want facts instead of vibes.
+- **Auto-save** to `research_output.txt` — because your brain is a sieve and future-you will thank present-you (or curse them, whatever).
+- Runs locally or in Docker, because Docker makes you feel like a real engineer.
 
-## Project Structure
+### Project Structure (Behold the Glory)
+- `main.py` — Where the cursed LangChain agent is summoned
+- `tools.py` — The weapons (search, wiki, and the sacred note saver)
+- `requirements.txt` — Dependencies that will definitely break in six months
+- `docker-compose.yml` + `Dockerfile` — For when you want to feel production-ready while crying inside
+- `run.bat` — Windows users, I got you (you’re welcome)
 
-- `main.py`: Configures the LangChain agent, prompt, response schema, and execution.
-- `tools.py`: Defines tools for searching, Wikipedia queries, and file saving.
-- `requirements.txt`: Lists Python dependencies.
-- `docker-compose.yml`: Docker Compose configuration for container setup.
-- `Dockerfile`: Docker image build instructions.
-- `run.bat`: Convenience script for running the app inside the Docker container (Windows).
+### Requirements
+- Python 3.11+
+- OpenRouter API key (yes, you actually need money)
+- Optional: Docker Desktop (highly recommended if you value your sanity)
 
-## Requirements
+### Installation (Local — For Masochists)
 
-- Python 3.11 or newer
-- An OpenRouter API key (set as environment variable)
-- Optional: Docker Desktop for containerized execution
+```bash
+python -m venv venv
+source venv/bin/activate    # Windows: .\venv\Scripts\activate
+pip install -r requirements.txt
 
-## Installation and Setup
+export OPENROUTER_API_KEY="sk-or-..."   # Windows: set OPENROUTER_API_KEY=sk-or-...
+```
 
-### Local Setup
+Now witness true power:
 
-1. **Create and activate a virtual environment**:
+```bash
+python main.py
+```
 
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: .\venv\Scripts\activate
-   ```
+Type your query and watch it cook.
 
-2. **Install dependencies**:
+### Docker Setup (For People With Standards)
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+docker compose up --build -d
+docker exec agentic-ai-container python main.py
+```
 
-3. **Set your OpenRouter API key**:
+Or just run `run.bat` like a civilized Windows user.
 
-   ```bash
-   export OPENROUTER_API_KEY="your_api_key_here"  # On Windows: set OPENROUTER_API_KEY=your_api_key_here
-   ```
+### How It Works (The Dark Magic)
 
-4. **Run the application**:
+The agent is given a strict Pydantic schema and a prompt that basically says: *"Don’t hallucinate, idiot. Use tools. Cite sources. Be useful for once."*
 
-   ```bash
-   python main.py
-   ```
+It will search, read Wikipedia, think, and then deliver a proper research report instead of the usual AI slop. If you mention saving, it appends everything to `research_output.txt` with a timestamp (so you can track how your obsessions evolve).
 
-   Enter your research query when prompted.
+### Usage Example
 
-### Docker Setup
+Try this masterpiece of a query:
+> "Research the latest trends in AI agent development and roast the current hype"
 
-1. **Build and start the container**:
+You’ll get a proper report. Not blogspam. Not marketing fluff. Actual signal.
 
-   ```bash
-   docker compose up --build -d
-   ```
+### Output Format
 
-2. **Run the script inside the container**:
+```json
+{
+  "topic": "AI Agent Development in 2026",
+  "summary": "Everyone’s building agents. Most are over-engineered todo list apps with extra steps...",
+  "sources": ["https://...", "Wikipedia: Artificial Intelligence"],
+  "tools_used": ["search", "wikipedia", "save_text_to_file"]
+}
+```
 
-   ```bash
-   docker exec agentic-ai-container python main.py
-   ```
+### Contributing
 
-   Alternatively, on Windows, use `run.bat` after the container is running.
+Found a bug? Open an issue.  
+Have a better idea? PR it.  
+Just here to complain? Make it funny at least.
 
-## How It Works
+### License
 
-The agent uses a Pydantic response schema to ensure structured output. It employs tools for web search and Wikipedia lookups when additional context is required. If the user requests to save data, it uses the save tool to append notes to `research_output.txt`.
+Open source. Do whatever. I’m not your dad.
 
-The prompt instructs the agent to provide accurate facts, detailed explanations, trends, comparisons, and caveats, while always filling all schema fields.
+---
 
-## Usage
-
-Run the app and enter a research query. The output will be a JSON object with the structured research report. If saving is requested, the results are appended to `research_output.txt`.
-
-Example query: "Research the latest trends in AI agent development."
-
-## Output
-
-The structured response includes:
-- `topic`: The research topic.
-- `summary`: A detailed report with facts, trends, context, comparisons, and caveats.
-- `sources`: List of sources used (websites, Wikipedia pages, etc.).
-- `tools_used`: List of exact tool names used (e.g., "search", "wikipedia", "save_text_to_file").
-
-If the save tool is invoked, the output is also saved to `research_output.txt` in the project root, prefixed with a timestamp.
-
-## Contributing
-
-Feel free to open issues or submit pull requests for improvements.
-
-## License
-
-This project is open-source. Please check for any specific license in the repository.
+**Now stop reading READMEs and go build something terrifying.**
