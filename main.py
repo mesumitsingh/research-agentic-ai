@@ -63,10 +63,7 @@ agent = create_agent(
 )
 
 
-
-# query = input("What can I help you research? ")
-query = "south east asia population, save to a file"
-
+query = input("What can I help you research? ")
 
 raw_response = agent.invoke(
     {
