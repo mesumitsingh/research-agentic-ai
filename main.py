@@ -1,20 +1,23 @@
 import os
 from dotenv import load_dotenv
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from langchain_openai import ChatOpenAI
-from langchain_core.prompts import ChatPromptTemplate
 from langchain.agents import create_agent
-from langchain_core.output_parsers import PydanticOutputParser
-from tools import search_tool
+from tools import search_tool, wiki_tool,save_tool
+
 
 load_dotenv()
 
 
 class ResearchResponse(BaseModel):
-    topic: str
-    summary: str
-    sources: list[str]
-    tools_used: list[str]
+
+    topic: str = Field(description="The research topic being addressed.")
+
+    summary: str = Field(description=( "A detailed research report with facts, trends, context, comparisons, and caveats."))
+
+    sources: list[str] = Field(description="Sources used during research.")
+    tools_used: list[str] = Field(description="Exact tool names used.")
+
 
 
 llm = ChatOpenAI(
@@ -23,40 +26,65 @@ llm = ChatOpenAI(
     model="openai/gpt-4o-mini"
 )
 
-parser = PydanticOutputParser(pydantic_object=ResearchResponse)
+prompt = """
+        You are a research assistant that produces thorough, well-sourced research reports.
 
-prompt = ChatPromptTemplate.from_messages(
-    [
-        (
-            "system",
-            "You are a research assistant."
-            "Answer the query and return ONLY in this format:\n{format_instructions}"
-        ),
-        ("human", "{query}")
-    ]
-).partial(format_instructions=parser.get_format_instructions())
+        Use available tools whenever needed.
 
-tools=[search_tool]
-agent = create_agent( 
-    model = llm, 
-    tools=tools, 
-    system_prompt="You are a research assistant"
+        Always provide:
+        - accurate facts
+        - detailed explanations
+        - trends
+        - comparisons
+        - caveats
+
+        You MUST fill all schema fields.
+
+        For sources:
+        - include websites, Wikipedia pages, or search references used
+        - never leave sources empty
+
+        For tools_used:
+        - include exact tool names used
+
+        If user asks to save data:
+        - use save_text_to_file tool
+        """
+
+
+tools = [search_tool, wiki_tool, save_tool]
+
+
+agent = create_agent(
+    model=llm,
+    tools=tools,
+    system_prompt=prompt,
+    response_format=ResearchResponse,
 )
 
 
-query = input("What can I help you research?")
+
+# query = input("What can I help you research? ")
+query = "south east asia population, save to a file"
+
+
 raw_response = agent.invoke(
-    { 
-        "messages" : [ 
-            { 
-                "role" : "user",
-                "content" : prompt.format(query)
+    {
+        "messages": [
+            {
+                "role": "user",
+                "content": query
             }
         ]
     }
 )
 
-print(raw_response)
 
-content = raw_response["messages"][-1].content
-print(content)
+try:
+
+    structured_response = raw_response["structured_response"]
+
+    print(structured_response.model_dump_json(indent=2))
+
+except Exception as e:
+    print("Error:", e, "\n\nRaw Response:\n", raw_response)
